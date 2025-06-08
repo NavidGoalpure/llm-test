@@ -5,11 +5,11 @@ import {
 
 export const handler = async (event: any) => {
   console.log('Received event:', JSON.stringify(event, null, 2));
-  
+
   try {
     const body = JSON.parse(event.body || '{}');
     console.log('Parsed body:', JSON.stringify(body, null, 2));
-    
+
     const prompt = body.prompt || 'Hello, Bedrock!';
     console.log('Using prompt:', prompt);
 
@@ -25,16 +25,22 @@ export const handler = async (event: any) => {
           maxTokenCount: 300,
           temperature: 0.7,
           topP: 1,
-          stopSequences: []
-        }
+          stopSequences: [],
+        },
       }),
     });
 
-    console.log('Sending request to Bedrock:', JSON.stringify(command.input, null, 2));
-    
+    console.log(
+      'Sending request to Bedrock:',
+      JSON.stringify(command.input, null, 2)
+    );
+
     const response = await client.send(command);
-    console.log('Received response from Bedrock:', JSON.stringify(response, null, 2));
-    
+    console.log(
+      'Received response from Bedrock:',
+      JSON.stringify(response, null, 2)
+    );
+
     const responseBody = JSON.parse(Buffer.from(response.body).toString());
     console.log('Parsed response body:', JSON.stringify(responseBody, null, 2));
 
@@ -42,11 +48,13 @@ export const handler = async (event: any) => {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       },
       body: JSON.stringify({
-        response: responseBody.results[0].outputText
-      })
+        response: responseBody.results[0].outputText,
+      }),
     };
   } catch (error) {
     console.error('Error:', error);
@@ -54,11 +62,14 @@ export const handler = async (event: any) => {
       statusCode: 500,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       },
       body: JSON.stringify({
-        error: error instanceof Error ? error.message : 'An unknown error occurred'
-      })
+        error:
+          error instanceof Error ? error.message : 'An unknown error occurred',
+      }),
     };
   }
 };
