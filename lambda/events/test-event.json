@@ -1,0 +1,13 @@
+{
+  "body": "{\"prompt\": \"What is AWS Bedrock?\"}",
+  "resource": "/chat",
+  "path": "/chat",
+  "httpMethod": "POST",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "requestContext": {
+    "resourcePath": "/chat",
+    "httpMethod": "POST"
+  }
+} 

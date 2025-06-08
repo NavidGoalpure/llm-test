@@ -1,0 +1,18 @@
+{
+  "name": "bedrock-handler",
+  "version": "1.0.0",
+  "description": "AWS Bedrock Lambda handler",
+  "main": "dist/bedrock-handler.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.826.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.9",
+    "typescript": "~5.6.3"
+  }
+} 
